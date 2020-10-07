@@ -1,0 +1,12 @@
+servers:
+  - vmname: 'monitoringlinux-01'
+    nicname: 'monitoringlinux-nic-01'
+    public_ip: 'monitoringlinux-ip1'
+resource_group: "monitoringlinux"
+virtual_network: "monitoringlinux-vnet"
+subnet_name: "default"
+security_group: "monitoringlinux-nsg"
+admin_username: "monitoringuser"
+admin_password: "Abcd123$"
+storage_account_name: 'monitoringlinuxstacc'
+azure_region_name: 'westeurope'
