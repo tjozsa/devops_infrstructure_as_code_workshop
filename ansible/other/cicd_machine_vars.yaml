@@ -2,6 +2,9 @@ servers:
   - vmname: 'monitoringlinux-01'
     nicname: 'monitoringlinux-nic-01'
     public_ip: 'monitoringlinux-ip1'
+  - vmname: 'monitoringlinux-02'
+    nicname: 'monitoringlinux-nic-02'
+    public_ip: 'monitoringlinux-ip2'
 resource_group: "monitoringlinux"
 virtual_network: "monitoringlinux-vnet"
 subnet_name: "default"
