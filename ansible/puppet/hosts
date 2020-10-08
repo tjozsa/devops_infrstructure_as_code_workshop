@@ -1,7 +1,7 @@
-[puppet_controller]
+[puppetcontroller]
 104.40.129.227
 
-[cicd:vars]
+[puppetcontroller:vars]
 ansible_connection=ssh
 ansible_user=puppetuser
 ansible_become_pass=Abcd123$
