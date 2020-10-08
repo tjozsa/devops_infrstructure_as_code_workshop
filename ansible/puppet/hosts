@@ -1,0 +1,7 @@
+[cicd]
+23.97.212.110
+
+[cicd:vars]
+ansible_connection=ssh
+ansible_user=monitoringuser
+ansible_become_pass=Abcd123$

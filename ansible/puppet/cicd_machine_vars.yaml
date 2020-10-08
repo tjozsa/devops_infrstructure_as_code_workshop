@@ -1,0 +1,12 @@
+servers:
+  - vmname: 'puppetlinux'
+    nicname: 'puppetlinux'
+    public_ip: 'puppetlinux-ip'
+resource_group: "puppetlinux"
+virtual_network: "puppetlinux-vnet"
+subnet_name: "default"
+security_group: "puppetlinux-nsg"
+admin_username: "puppetuser"
+admin_password: "Abcd123$"
+storage_account_name: 'puppetlinuxstacc'
+azure_region_name: 'westeurope'
