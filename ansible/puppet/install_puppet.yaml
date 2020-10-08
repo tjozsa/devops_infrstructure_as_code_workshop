@@ -1,5 +1,5 @@
 ---
-- hosts: cicd
+- hosts: puppet-controller
   become: true
   roles:
     - role: geerlingguy.puppet

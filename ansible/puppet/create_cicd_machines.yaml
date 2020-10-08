@@ -1,10 +1,10 @@
 ---
 - hosts: localhost
   connection: local
-  gather_facts: yes
+  gather_facts: no
   tasks:
     - name: Include variables # will import all vars from file
-      include_vars: cicd_machine_vars.yaml
+      include_vars: puppet_controller.yaml
     - name: Create azure resource group
       azure_rm_resourcegroup:
         name: "{{ resource_group }}"

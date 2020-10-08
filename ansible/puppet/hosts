@@ -1,4 +1,4 @@
-[cicd]
+[puppet-controller]
 137.117.145.241
 
 [cicd:vars]
