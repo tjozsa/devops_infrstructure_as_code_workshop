@@ -1,5 +1,5 @@
-[puppet-controller]
-137.117.145.241
+[puppet_controller]
+104.40.129.227
 
 [cicd:vars]
 ansible_connection=ssh
