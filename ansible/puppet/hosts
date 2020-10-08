@@ -1,7 +1,7 @@
 [cicd]
-23.97.212.110
+137.117.145.241
 
 [cicd:vars]
 ansible_connection=ssh
-ansible_user=monitoringuser
+ansible_user=puppetuser
 ansible_become_pass=Abcd123$
