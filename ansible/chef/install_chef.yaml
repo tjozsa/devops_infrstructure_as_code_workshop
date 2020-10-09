@@ -1,10 +1,8 @@
 ---
 - hosts: chef_controller
   become: yes
-  vars:
-    ansible_python_interpreter: "/usr/bin/python3"  
-    ansible_install_method: pip
-    ansible_install_version_pip: latest
-  roles:
-    - role: geerlingguy.pip
-    - role: geerlingguy.ansible
+  tasks:
+    - name: Download chef
+      shell: "wget https://packages.chef.io/files/stable/chefworkstation/0.14/ubuntu/18.04/chefworkstation_0.14.16-1_amd64.deb"
+    - name: Install chef
+      shell: "dpkg -i chefworkstation_0.14.16-1_amd64.deb"
