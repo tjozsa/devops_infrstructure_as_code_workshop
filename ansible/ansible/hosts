@@ -1,0 +1,7 @@
+[ansible_controller]
+13.80.153.83
+
+[ansible_controller:vars]
+ansible_connection=ssh
+ansible_user=puppetuser
+ansible_become_pass=Abcd123$

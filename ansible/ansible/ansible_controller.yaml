@@ -1,0 +1,12 @@
+servers:
+  - vmname: 'ansiblelinux'
+    nicname: 'ansiblelinux'
+    public_ip: 'ansiblelinux-ip'
+resource_group: "ansiblelinux"
+virtual_network: "ansiblelinux-vnet"
+subnet_name: "default"
+security_group: "ansiblelinux-nsg"
+admin_username: "ansibleuser"
+admin_password: "Abcd123$"
+storage_account_name: 'ansiblelinuxstacc'
+azure_region_name: 'westeurope'

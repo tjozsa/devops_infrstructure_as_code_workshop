@@ -1,0 +1,13 @@
+---
+- hosts: ansible_controller
+  roles:
+    - role: geerlingguy.puppet
+  tasks:
+    - name: install Azure CLI
+      apt:
+        name: azure-cli
+    - name: get requirements
+      shell: |
+        wget https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt
+    - name: install azure ansible
+      pip: ansible[azure]
