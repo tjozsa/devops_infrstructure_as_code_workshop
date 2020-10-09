@@ -1,0 +1,81 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Include variables # will import all vars from file
+      include_vars: chef_controller.yaml
+    - name: Create azure resource group
+      azure_rm_resourcegroup:
+        name: "{{ resource_group }}"
+        location: westeurope
+    - name: Create Virtual Network
+      azure_rm_virtualnetwork:
+        name: "{{ virtual_network }}"
+        resource_group: "{{ resource_group }}"
+        address_prefixes_cidr:
+          - "10.2.0.0/16"
+          - "172.1.0.0/16"
+        state: present 
+    - name: Create Security Group
+      azure_rm_securitygroup:
+        resource_group: "{{ resource_group }}"
+        name: "{{ security_group }}"
+        rules: 
+        - name: allin
+          access: Allow
+          priority: 100
+          direction: Inbound
+        - name: allout
+          access: Allow
+          priority: 110
+          direction: Outbound
+    - name: Create a subnet
+      azure_rm_subnet:
+        resource_group: "{{ resource_group }}"
+        virtual_network_name: "{{ virtual_network }}"
+        name: "{{ subnet_name }}"
+        address_prefix_cidr: "10.2.1.0/24"
+        security_group: "{{ security_group }}"
+    - name: Create a storage account
+      azure_rm_storageaccount:
+        resource_group: "{{ resource_group }}"
+        name: "{{ storage_account_name }}"
+        type: Standard_RAGRS 
+        location: "{{ azure_region_name }}"
+    - name: Create Public IP address
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        name: "{{ item.public_ip }}"
+        allocation_method: static
+      loop: "{{servers}}"
+    - name: Create a network interface
+      azure_rm_networkinterface:
+        name: "{{ item.nicname }}"
+        resource_group: "{{ resource_group }}"
+        virtual_network: "{{ virtual_network }}"
+        subnet_name: "{{ subnet_name }}"
+        security_group: "{{ security_group }}"
+        ip_configurations:
+          - name: default
+            public_ip_address_name: "{{ item.public_ip }}"
+            primary: True
+      loop: "{{servers}}"
+    - name: Create  Linux VM
+      azure_rm_virtualmachine:
+        resource_group: "{{ resource_group }}"
+        name: "{{ item.vmname }}"
+        vm_size: Standard_A2_v2
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: "{{ item.nicname }}"
+        ssh_public_keys:
+          - path: /home/{{ admin_username }}/.ssh/authorized_keys
+            key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCq8AMWn34HiMeA9XUCOEwbEnWIyUqtw3V/y+z7YNKVld8vNAbDA8RxYtFPML8ROEVn6QGlfMXLK8UBAl4AgaQKMyfuR/oc54hHWsZzunjKddolFESuzEUDJ/W2W02GQPpUAEhfcW3Zq4XUeXsuSMths0ClbvFg+H+m5JmA5dSW9BRonAzcqvH2HVdN/KuILbypVqojkamhJsBJ874CTfdyNPpyI7Ekxaag1gOXGiDOziZsa4iNEWUTj47fYL7Folzxt/X4Dzx7+HWUC3cyaGSmCUOQwkzjj5Bs2nuDCzsJwODvKfsUAjyNLRST6aYoY664msNKc5oTSZKkZdLAHcW8r/4rpWgZdEOsDCww8jSz36IIHARtWWkbc2gpp/hsRr9MlZQSrEIwNVlNIeIrG9bgiP6s2DOT47SJ2xiLZFXTCs5YEUrHN7DkCIbKnItJDl+srCTXwUcQ6mCf0b8hO8QdRSXNd1AsIpq7EcRBF5u+R8iz2pk1ICEzRtleiFd9BcH1a3Z/qhPh/zZqkUPgGDaB2EivhNZiqgZFKX4JdCGu5UfVWG5vDacYePueiJVK7DeSWIex6G5wzYLVfcBkIXu0zJajMJ1l7+sVkMwGjUD5TxyOs7U4H75LV9PjUK6N23Vk4+qg2RXYRnf0KV3l4Wo5DmnLphlZuXMfT38qFQhrmQ=="  
+        os_type: Linux
+        image:
+            offer: "UbuntuServer"
+            publisher: "Canonical"
+            sku: "18.04-LTS"
+            version: "latest"
+      loop: "{{servers}}"

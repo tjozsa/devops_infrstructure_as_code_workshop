@@ -1,0 +1,7 @@
+[chef_controller]
+137.117.174.106
+
+[chef_controller:vars]
+chef_connection=ssh
+chef_user=chefuser
+chef_become_pass=Abcd123$

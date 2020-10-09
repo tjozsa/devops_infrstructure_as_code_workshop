@@ -1,0 +1,12 @@
+servers:
+  - vmname: 'cheflinux'
+    nicname: 'cheflinux'
+    public_ip: 'cheflinux-ip'
+resource_group: "cheflinux"
+virtual_network: "cheflinux-vnet"
+subnet_name: "default"
+security_group: "cheflinux-nsg"
+admin_username: "chefuser"
+admin_password: "Abcd123$"
+storage_account_name: 'cheflinuxstacc'
+azure_region_name: 'westeurope'

@@ -1,0 +1,10 @@
+---
+- hosts: chef_controller
+  become: yes
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"  
+    ansible_install_method: pip
+    ansible_install_version_pip: latest
+  roles:
+    - role: geerlingguy.pip
+    - role: geerlingguy.ansible
