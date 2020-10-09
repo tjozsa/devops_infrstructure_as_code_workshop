@@ -1,16 +1,7 @@
----
-- hosts: ansible_controller
+- hosts: servers
+  vars:
+    ansible_install_method: pip
+    ansible_install_version_pip: "latest"
   roles:
-    - role: geerlingguy.puppet
-  tasks:
-    - name: install Azure CLI
-      apt:
-        name: azure-cli
-    - name: get requirements
-      shell: "wget https://raw.githubusercontent.com/ansible-collections/azure/dev/requirements-azure.txt"
-    - name: install azure ansible
-      pip: 
-        requirements: requirements-azure.txt
-    - name: install azure ansible
-      pip: 
-        name: ansible[azure]
+    - role: geerlingguy.pip
+    - role: geerlingguy.ansible
