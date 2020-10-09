@@ -4,7 +4,7 @@
   gather_facts: no
   tasks:
     - name: Include variables # will import all vars from file
-      include_vars: puppet_controller.yaml
+      include_vars: ansible_controller.yaml
     - name: Create azure resource group
       azure_rm_resourcegroup:
         name: "{{ resource_group }}"
