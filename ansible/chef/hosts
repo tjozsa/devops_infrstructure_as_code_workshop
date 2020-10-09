@@ -1,5 +1,5 @@
 [chef_controller]
-137.117.174.106
+13.80.158.179
 
 [chef_controller:vars]
 chef_connection=ssh
