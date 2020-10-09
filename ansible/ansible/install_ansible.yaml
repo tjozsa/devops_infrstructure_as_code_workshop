@@ -1,7 +1,8 @@
-- hosts: servers
+---
+- hosts: ansible_controller
   vars:
     ansible_install_method: pip
-    ansible_install_version_pip: "latest"
+    ansible_install_version_pip: latest
   roles:
     - role: geerlingguy.pip
     - role: geerlingguy.ansible
