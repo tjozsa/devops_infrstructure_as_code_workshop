@@ -1,5 +1,5 @@
 ---
-- hosts: puppetcontroller
+- hosts: puppet_controller
   become: true
   roles:
     - role: geerlingguy.puppet
