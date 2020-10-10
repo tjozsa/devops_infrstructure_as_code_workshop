@@ -2,6 +2,6 @@
 13.80.158.179
 
 [chef_controller:vars]
-chef_connection=ssh
-chef_user=chefuser
-chef_become_pass=Abcd123$
+ansible_connection=ssh
+ansible_user=chefuser
+ansible_become_pass=Abcd123$
