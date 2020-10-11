@@ -2,6 +2,9 @@
 - hosts: chef_controller
   become: yes
   tasks:
-    - name: Download and install chef
+    - name: Download and install Chef Workstation
+      apt:
+        deb: https://packages.chef.io/files/stable/chef-workstation/20.9.158/ubuntu/18.04/chef-workstation_20.9.158-1_amd64.deb
+    - name: Download and install Chef server
       apt:
         deb: https://packages.chef.io/files/stable/chef-server/14.0.58/ubuntu/18.04/chef-server-core_14.0.58-1_amd64.deb
