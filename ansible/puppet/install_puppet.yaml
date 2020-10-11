@@ -1,4 +1,5 @@
 ---
 - hosts: puppet_controller
+  become: yes
   roles:
     - role: geerlingguy.puppet
