@@ -1,0 +1,87 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: no    
+  tasks:
+    - name: Include variables # will import all vars from file
+      include_vars: slave_machine_vars.yaml
+    - name: Create azure resource group
+      azure_rm_resourcegroup:
+        name: "{{ resource_group }}"
+        location: westeurope
+    - name: Create Virtual Network
+      azure_rm_virtualnetwork:
+        name: "{{ virtual_network }}"
+        resource_group: "{{ resource_group }}"
+        address_prefixes_cidr:
+          - "10.2.0.0/16"
+          - "172.1.0.0/16"
+        state: present 
+    - name: Create Security Group
+      azure_rm_securitygroup:
+        resource_group: "{{ resource_group }}"
+        name: "{{ security_group }}"
+        rules: 
+        - name: allin
+          access: Allow
+          priority: 100
+          direction: Inbound
+        - name: allout
+          access: Allow
+          priority: 110
+          direction: Outbound
+    - name: Create a subnet
+      azure_rm_subnet:
+        resource_group: "{{ resource_group }}"
+        virtual_network_name: "{{ virtual_network }}"
+        name: "{{ subnet_name }}"
+        address_prefix_cidr: "10.2.1.0/24"
+        security_group: "{{ security_group }}"
+    - name: Create a storage account
+      azure_rm_storageaccount:
+        resource_group: "{{ resource_group }}"
+        name: "{{ storage_account_name }}"
+        type: Standard_RAGRS 
+        location: "{{ azure_region_name }}"
+    - name: Create Public IP address
+      azure_rm_publicipaddress:
+        resource_group: "{{ resource_group }}"
+        name: "{{ item.public_ip }}"
+        allocation_method: static
+      loop: "{{servers}}"
+    - name: Create a network interface
+      azure_rm_networkinterface:
+        name: "{{ item.nicname }}"
+        resource_group: "{{ resource_group }}"
+        virtual_network: "{{ virtual_network }}"
+        subnet_name: "{{ subnet_name }}"
+        security_group: "{{ security_group }}"
+        ip_configurations:
+          - name: default
+            public_ip_address_name: "{{ item.public_ip }}"
+            primary: True
+      loop: "{{servers}}"
+    - name: Create CICD Linux VM
+      azure_rm_virtualmachine:
+        resource_group: "{{ resource_group }}"
+        name: "{{ item.vmname }}"
+        vm_size: Standard_B2s
+        admin_username: "{{ admin_username }}"
+        admin_password: "{{ admin_password }}"
+        network_interfaces: "{{ item.nicname }}"
+        ssh_public_keys:
+          - path: /home/{{ admin_username }}/.ssh/authorized_keys
+            key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC7QmL4rC3iycIJzjCZ8xSV/6tvKcgvFh4m+/nMxArS+Fumg6Tum9QFIkx9r6JYLine12auheuBxSeX6zQAHT6hMgHSfdTDH1VDw1ZrUrar4MoEsKZFPqezoZdWRdYgVlyFhsvNSi5VFI/4Mnzl9k0DQ6GEgnUN5UM4Kj8E2EQie15Jw0EsMOCCv0FHWJD8NyrwKxAqFAQXaXNRlniriMu0m3I7QfuD6+Z5zLTAGd/oHtLsws7PlUzo40ETgNl5a8TurkOMrvliQABANAuhQ+q92vj6eWTyiVFAQdz5KvnhYXX8fquoZbPSmWsFMFVYo/j2DOflARbvqgEUU66QAcAYpWyfEpz4B7NZXpQbYzKT1sGha9VHK8+BEK3ZtzN+BUxMMXoqY6zAl8zZKwLgpIWqE+zGfkyMJif47aWXN2z2/SpIKCnqDDcqRsOHHbC0dfIknimSbDZPUkDUgi/uwAHYaTgBQ2NafN+Wbc38Q588T0Lc6G/ytNFNEFtuozcZ/Cbk+ffxs8cKqJ7X4UDUsq33jA/R6waDvGjzREA4zkBMxtdpSnFcO9haq0Q2QgBA0ZsHkwDf3DuUYnSB1g844RXbtiSC5TBeNDenKkijrqh87H761+m6rLoIX0KR3DnZQrjwC3cqocUREdIDDSxzBwtbkwqzKF7VXsXb4zGp1+Lu1Q=="  
+        # os_type: Windows
+        # image:
+        #     offer: "windows-10"
+        #     publisher: "MicrosoftWindowsDesktop"
+        #     sku: "20h1-pro"
+        #     version: "latest"
+        os_type: Linux
+        image:
+            offer: "UbuntuServer"
+            publisher: "Canonical"
+            sku: "18.04-LTS"
+            version: "latest"
+      loop: "{{servers}}"

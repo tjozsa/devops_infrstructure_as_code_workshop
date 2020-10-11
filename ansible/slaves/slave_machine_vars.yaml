@@ -1,0 +1,15 @@
+servers:
+  - vmname: 'slavelinux-01'
+    nicname: 'slavelinux-nic-01'
+    public_ip: 'slavelinux-ip1'
+  - vmname: 'slavelinux-02'
+    nicname: 'slavelinux-nic-02'
+    public_ip: 'slavelinux-ip2'
+resource_group: "slavelinux"
+virtual_network: "slavelinux-vnet"
+subnet_name: "default"
+security_group: "slavelinux-nsg"
+admin_username: "slaveuser"
+admin_password: "Abcd123$"
+storage_account_name: 'slavelinuxstacc'
+azure_region_name: 'westeurope'
