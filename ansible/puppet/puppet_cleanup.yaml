@@ -1,0 +1,13 @@
+---
+    - hosts: localhost
+      connection: local
+      gather_facts: no
+      tasks:
+        - name: Include variables # will import all vars from file
+          include_vars: puppet_controller.yaml
+        - name: Delete a resource group
+          azure_rm_resourcegroup:
+            name: "{{ resource_group }}"
+            state: absent
+            force: yes
+          

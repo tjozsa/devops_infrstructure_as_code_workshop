@@ -1,5 +1,5 @@
 [chef_controller]
-13.80.158.179
+13.69.52.69
 
 [chef_controller:vars]
 ansible_connection=ssh
