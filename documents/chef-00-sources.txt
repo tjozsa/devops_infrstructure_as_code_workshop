@@ -1,0 +1,7 @@
+Useful cookbooks:
+https://github.com/chef-cookbooks/chef-server
+https://github.com/chef-cookbooks/sql_server
+https://github.com/chef-cookbooks/kubernetes
+https://supermarket.chef.io/cookbooks/elkstack
+https://supermarket.chef.io/cookbooks/jenkins
+https://supermarket.chef.io/cookbooks/nginx
